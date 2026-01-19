@@ -13,6 +13,7 @@ interface TelegramWebApp {
   expand: () => void
   close: () => void
   isExpanded: boolean
+  isFullscreen?: boolean
   viewportHeight: number
   viewportStableHeight: number
   headerColor: string
@@ -21,6 +22,12 @@ interface TelegramWebApp {
   setBackgroundColor: (color: string) => void
   enableClosingConfirmation: () => void
   disableClosingConfirmation: () => void
+  requestFullscreen?: () => void
+  exitFullscreen?: () => void
+  disableVerticalSwipes?: () => void
+  enableVerticalSwipes?: () => void
+  lockOrientation?: () => void
+  unlockOrientation?: () => void
   BackButton: {
     isVisible: boolean
     show: () => void
@@ -93,6 +100,16 @@ export const initTelegram = () => {
   // Expand to full screen
   tg.expand()
 
+  // Request full screen mode if available (newer API v7.7+)
+  if (tg.requestFullscreen) {
+    tg.requestFullscreen()
+  }
+
+  // Disable vertical swipes to prevent accidental closing (API v7.7+)
+  if (tg.disableVerticalSwipes) {
+    tg.disableVerticalSwipes()
+  }
+
   // Set colors to match our theme
   tg.setHeaderColor('#0a0a0a')
   tg.setBackgroundColor('#0a0a0a')
@@ -101,6 +118,10 @@ export const initTelegram = () => {
     platform: tg.platform,
     version: tg.version,
     colorScheme: tg.colorScheme,
+    isExpanded: tg.isExpanded,
+    isFullscreen: tg.isFullscreen,
+    viewportHeight: tg.viewportHeight,
+    viewportStableHeight: tg.viewportStableHeight,
   })
 }
 

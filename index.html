@@ -11,6 +11,56 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Initialize Telegram WebApp immediately before React loads
+      (function() {
+        // Function to update CSS viewport variable
+        function updateViewportHeight() {
+          var vh = window.innerHeight;
+          if (window.Telegram && window.Telegram.WebApp) {
+            vh = window.Telegram.WebApp.viewportStableHeight || window.Telegram.WebApp.viewportHeight || window.innerHeight;
+          }
+          document.documentElement.style.setProperty('--tg-viewport-stable-height', vh + 'px');
+          document.documentElement.style.setProperty('--app-height', vh + 'px');
+        }
+
+        if (window.Telegram && window.Telegram.WebApp) {
+          var tg = window.Telegram.WebApp;
+
+          // Signal ready
+          tg.ready();
+
+          // Expand to full height
+          tg.expand();
+
+          // Request full screen mode if available (newer API v7.7+)
+          if (tg.requestFullscreen) {
+            tg.requestFullscreen();
+          }
+
+          // Disable vertical swipes to prevent accidental closing
+          if (tg.disableVerticalSwipes) {
+            tg.disableVerticalSwipes();
+          }
+
+          // Set colors
+          if (tg.setHeaderColor) tg.setHeaderColor('#0a0a0a');
+          if (tg.setBackgroundColor) tg.setBackgroundColor('#0a0a0a');
+
+          // Update viewport height
+          updateViewportHeight();
+
+          // Listen for viewport changes
+          tg.onEvent && tg.onEvent('viewportChanged', function(e) {
+            updateViewportHeight();
+          });
+        }
+
+        // Also listen for window resize
+        window.addEventListener('resize', updateViewportHeight);
+        updateViewportHeight();
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
