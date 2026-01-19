@@ -100,10 +100,15 @@ export const initTelegram = () => {
   // Expand to full height
   tg.expand()
 
-  // Request true fullscreen mode (API v7.7+)
+  // Request true fullscreen mode (Bot API 8.0+)
   if (tg.requestFullscreen) {
     tg.requestFullscreen()
-    document.body.classList.add('tg-fullscreen')
+    // Only add class if actually in fullscreen
+    setTimeout(() => {
+      if (tg.isFullscreen) {
+        document.body.classList.add('tg-fullscreen')
+      }
+    }, 100)
   }
 
   // Disable vertical swipes to prevent accidental closing (API v7.7+)

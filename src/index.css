@@ -61,11 +61,11 @@ body {
   overflow-x: hidden;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  padding-top: 16px;
+  padding-top: 56px;
   padding-bottom: 100px;
 }
 
-/* Fullscreen mode - add safe area padding for status bar */
+/* True fullscreen mode - adjust padding for status bar only */
 body.tg-fullscreen .screen-scroll {
   padding-top: 50px;
 }
