@@ -51,7 +51,7 @@ const App: React.FC = () => {
   return (
     <div className="h-full bg-bg flex flex-col">
       {/* Spacer for Telegram header */}
-      <div className="flex-shrink-0" style={{ height: '100px' }} />
+      <div className="flex-shrink-0" style={{ height: '90px' }} />
 
       {/* Main Content */}
       <main className="flex-1 overflow-hidden">
