@@ -50,6 +50,9 @@ const App: React.FC = () => {
 
   return (
     <div className="h-full bg-bg flex flex-col">
+      {/* Spacer for Telegram header */}
+      <div className="flex-shrink-0" style={{ height: '60px' }} />
+
       {/* Main Content */}
       <main className="flex-1 overflow-hidden">
         <Suspense fallback={<ScreenLoader />}>
