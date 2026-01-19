@@ -65,9 +65,19 @@ body {
   padding-bottom: 100px;
 }
 
+/* Fullscreen mode - add safe area padding */
+body.tg-fullscreen .screen-scroll {
+  padding-top: calc(env(safe-area-inset-top, 44px) + 16px);
+  height: calc(100dvh - 80px);
+}
+
 /* Safe area padding for notch devices */
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom, 24px);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 44px);
 }
 
 /* Haptic feedback simulation */
