@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Telegram Web App overrides */
+:root {
+  --tg-theme-bg-color: #0a0a0a;
+  --tg-theme-text-color: #ffffff;
+  --tg-theme-hint-color: #888888;
+  --tg-theme-link-color: #FFD700;
+  --tg-theme-button-color: #FFD700;
+  --tg-theme-button-text-color: #0a0a0a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+html, body {
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+}
+
+/* Main scrollable content area */
+.screen-scroll {
+  height: calc(100dvh - 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 16px;
+  padding-bottom: 100px;
+}
+
+/* Safe area padding for notch devices */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 24px);
+}
+
+/* Haptic feedback simulation */
+.haptic {
+  transition: transform 0.1s ease;
+}
+.haptic:active {
+  transform: scale(0.97);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.2s ease;
+}
+.card-hover:hover {
+  background-color: #252525;
+  transform: translateY(-2px);
+}
+
+/* Gradient text - Gold theme */
+.gradient-text {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Medical gradient */
+.gradient-medical {
+  background: linear-gradient(135deg, #FFD700 0%, #2DD4BF 100%);
+}
+
+/* Badge pulse animation */
+@keyframes pulse-badge {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+.badge-pulse {
+  animation: pulse-badge 2s infinite;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Gold glow effect */
+.glow-gold {
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+/* Rating stars */
+.star-filled {
+  color: #FFD700;
+}
+.star-empty {
+  color: #4a4a4a;
+}

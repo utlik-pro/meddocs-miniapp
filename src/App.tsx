@@ -1,0 +1,54 @@
+import React, { useState, Suspense, lazy } from 'react'
+import { Navigation } from '@/components/Navigation'
+import type { TabId } from '@/types'
+
+// Lazy load screens for better performance
+const HomeScreen = lazy(() => import('@/screens/HomeScreen'))
+const EventsScreen = lazy(() => import('@/screens/EventsScreen'))
+const LearnScreen = lazy(() => import('@/screens/LearnScreen'))
+const CommunityScreen = lazy(() => import('@/screens/CommunityScreen'))
+const ProfileScreen = lazy(() => import('@/screens/ProfileScreen'))
+
+// Loading component
+const ScreenLoader: React.FC = () => (
+  <div className="flex items-center justify-center h-full">
+    <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+  </div>
+)
+
+const App: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<TabId>('home')
+
+  const renderScreen = () => {
+    switch (activeTab) {
+      case 'home':
+        return <HomeScreen onNavigate={setActiveTab} />
+      case 'events':
+        return <EventsScreen />
+      case 'learn':
+        return <LearnScreen />
+      case 'community':
+        return <CommunityScreen />
+      case 'profile':
+        return <ProfileScreen />
+      default:
+        return <HomeScreen onNavigate={setActiveTab} />
+    }
+  }
+
+  return (
+    <div className="h-full bg-bg flex flex-col">
+      {/* Main Content */}
+      <main className="flex-1 overflow-hidden">
+        <Suspense fallback={<ScreenLoader />}>
+          {renderScreen()}
+        </Suspense>
+      </main>
+
+      {/* Navigation */}
+      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+    </div>
+  )
+}
+
+export default App
