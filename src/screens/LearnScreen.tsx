@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   GraduationCap,
@@ -7,18 +7,33 @@ import {
   Lock,
   Check,
   Clock,
-  ChevronLeft,
-  ChevronRight,
   Sparkles,
 } from 'lucide-react'
 import { Card, Badge, Button, Progress, EmptyState } from '@/components/ui'
 import { demoCourses, demoAISummaries, demoDoctor } from '@/data/mockData'
+import { backButton, haptic } from '@/lib/telegram'
 import type { Course } from '@/types'
 
 const LearnScreen: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
   const [courses, setCourses] = useState(demoCourses)
   const userXP = demoDoctor.xp
+
+  // Handle Telegram BackButton
+  useEffect(() => {
+    if (selectedCourse) {
+      backButton.show(() => {
+        haptic.light()
+        setSelectedCourse(null)
+      })
+    } else {
+      backButton.hide()
+    }
+
+    return () => {
+      backButton.hide()
+    }
+  }, [selectedCourse])
 
   // Course lessons (mock)
   const getLessons = (courseId: string) => [
@@ -46,17 +61,6 @@ const LearnScreen: React.FC = () => {
 
     return (
       <div className="screen-scroll">
-        {/* Header */}
-        <div className="px-4 mb-4">
-          <button
-            onClick={() => setSelectedCourse(null)}
-            className="flex items-center gap-2 text-gray-400 mb-4"
-          >
-            <ChevronLeft size={20} />
-            <span>Назад</span>
-          </button>
-        </div>
-
         {/* Course Header */}
         <div className="px-4">
           <div className="flex items-start gap-4 mb-4">

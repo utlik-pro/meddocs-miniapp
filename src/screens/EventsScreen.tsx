@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Calendar,
@@ -8,11 +8,11 @@ import {
   Check,
   X,
   Star,
-  ChevronLeft,
   Ticket,
 } from 'lucide-react'
 import { Card, Badge, Button, Avatar, StarRating, Tag, EmptyState } from '@/components/ui'
 import { demoEvents } from '@/data/mockData'
+import { backButton, haptic } from '@/lib/telegram'
 import type { MedEvent } from '@/types'
 import { format } from 'date-fns'
 import { ru } from 'date-fns/locale'
@@ -21,6 +21,22 @@ const EventsScreen: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'registered' | 'past'>('all')
   const [selectedEvent, setSelectedEvent] = useState<MedEvent | null>(null)
   const [events, setEvents] = useState(demoEvents)
+
+  // Handle Telegram BackButton
+  useEffect(() => {
+    if (selectedEvent) {
+      backButton.show(() => {
+        haptic.light()
+        setSelectedEvent(null)
+      })
+    } else {
+      backButton.hide()
+    }
+
+    return () => {
+      backButton.hide()
+    }
+  }, [selectedEvent])
 
   const filteredEvents = events.filter(event => {
     const isPast = new Date(event.date) < new Date()
@@ -46,17 +62,6 @@ const EventsScreen: React.FC = () => {
 
     return (
       <div className="screen-scroll">
-        {/* Header */}
-        <div className="px-4 mb-4">
-          <button
-            onClick={() => setSelectedEvent(null)}
-            className="flex items-center gap-2 text-gray-400 mb-4"
-          >
-            <ChevronLeft size={20} />
-            <span>Назад</span>
-          </button>
-        </div>
-
         {/* Hero */}
         <div className="h-32 bg-gradient-to-br from-accent/30 to-bg-card flex items-center justify-center mb-4">
           <Calendar size={48} className="text-accent" />

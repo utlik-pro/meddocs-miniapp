@@ -1,5 +1,6 @@
-import React, { useState, Suspense, lazy } from 'react'
+import React, { useState, Suspense, lazy, useEffect } from 'react'
 import { Navigation } from '@/components/Navigation'
+import { initTelegram, backButton, haptic } from '@/lib/telegram'
 import type { TabId } from '@/types'
 
 // Lazy load screens for better performance
@@ -19,10 +20,21 @@ const ScreenLoader: React.FC = () => (
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('home')
 
+  // Initialize Telegram WebApp on mount
+  useEffect(() => {
+    initTelegram()
+  }, [])
+
+  // Handle tab change with haptic feedback
+  const handleTabChange = (tab: TabId) => {
+    haptic.selection()
+    setActiveTab(tab)
+  }
+
   const renderScreen = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeScreen onNavigate={setActiveTab} />
+        return <HomeScreen onNavigate={handleTabChange} />
       case 'events':
         return <EventsScreen />
       case 'learn':
@@ -32,7 +44,7 @@ const App: React.FC = () => {
       case 'profile':
         return <ProfileScreen />
       default:
-        return <HomeScreen onNavigate={setActiveTab} />
+        return <HomeScreen onNavigate={handleTabChange} />
     }
   }
 
@@ -46,7 +58,7 @@ const App: React.FC = () => {
       </main>
 
       {/* Navigation */}
-      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+      <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
     </div>
   )
 }
