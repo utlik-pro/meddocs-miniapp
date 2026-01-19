@@ -97,13 +97,8 @@ export const initTelegram = () => {
   // Signal that the app is ready
   tg.ready()
 
-  // Expand to full screen
+  // Expand to full height (not requestFullscreen - that hides Telegram header)
   tg.expand()
-
-  // Request full screen mode if available (newer API v7.7+)
-  if (tg.requestFullscreen) {
-    tg.requestFullscreen()
-  }
 
   // Disable vertical swipes to prevent accidental closing (API v7.7+)
   if (tg.disableVerticalSwipes) {
